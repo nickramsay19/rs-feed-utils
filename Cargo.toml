@@ -3,6 +3,12 @@ name = "rs-feed-utils"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+atom_syndication = "^0.12.2"
+rss = "^2.0"
+chrono = "^0.4.31"
+
+[lib]
+name = "feed-utils"
+path = "lib/lib.rs"
+
