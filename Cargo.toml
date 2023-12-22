@@ -12,3 +12,7 @@ chrono = "^0.4.31"
 name = "feed_utils"
 path = "lib/lib.rs"
 
+[[bin]]
+name = "aggregate"
+path = "aggregate/main.rs"
+
