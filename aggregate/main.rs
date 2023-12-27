@@ -27,11 +27,11 @@ fn read_feed(reader: impl io::BufRead) -> io::Result<atom::Feed> {
 fn main() -> io::Result<()> {
 
     // create a binary heap, a priority queue of rss items ordered by date
-    let mut heap: BinaryHeap<OrdAtomEntry> = BinaryHeap::new();
+    let mut entries: Vec<atom::Entry> = Vec::new();
 
     // read rss feed contents from stdin
     while let Ok(feed) = read_feed(io::stdin().lock()) {
-        heap.extend(feed.entries.into_iter().map(OrdAtomEntry));
+        entries.extend(feed.entries.into_iter());
     }
 
     // create rss xml feed
@@ -40,8 +40,9 @@ fn main() -> io::Result<()> {
     builder.namespace(("media".to_string(), "http://search.yahoo.com/mrss/".to_string()));
     builder.namespace(("yt".to_string(), "http://www.youtube.com/xml/schemas/2015/".to_string()));
 
-    while let Some(OrdAtomEntry(entry)) = heap.pop() {
-        // add this item/post to the channel
+    entries.sort_by_key(|e| e.updated);
+
+    for entry in entries {
         builder.entry(entry); 
     }
     
